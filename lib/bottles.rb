@@ -1,7 +1,7 @@
 class CountdownSong
   attr_reader :verse_template, :max, :min
 
-  def initialize(verse_template:, max: 999999, min: 0)
+  def initialize(verse_template:, max: verse_template.max, min: verse_template.min)
     @verse_template = verse_template
     @max, @min = max, min
   end
@@ -15,14 +15,24 @@ class CountdownSong
   end
 
   def verse(number)
-    verse_template.lyrics(number)
+    verse_template.lyrics(number, max: max)
   end
 end
 
 
 class BottleVerse
-  def self.lyrics(number)
-    new(BottleNumber.for(number)).lyrics
+  class << self
+    def max
+      99
+    end
+
+    def min
+      0
+    end
+
+    def lyrics(number, max: self.max)
+      new(BottleNumber.for(number, max: max)).lyrics
+    end
   end
 
   attr_reader :bottle_number
@@ -41,7 +51,7 @@ end
 
 
 class BottleNumber
-  def self.for(number)
+  def self.for(number, max:)
     case number
     when 0
       BottleNumber0
@@ -51,12 +61,13 @@ class BottleNumber
       BottleNumber6
     else
       BottleNumber
-    end.new(number)
+    end.new(number, max: max)
   end
 
-  attr_reader :number
-  def initialize(number)
+  attr_reader :number, :max
+  def initialize(number, max:)
     @number = number
+    @max = max
   end
 
   def to_s
@@ -80,7 +91,7 @@ class BottleNumber
   end
 
   def successor
-    BottleNumber.for(number - 1)
+    BottleNumber.for(number - 1, max: max)
   end
 end
 
@@ -94,7 +105,7 @@ class BottleNumber0 < BottleNumber
   end
 
   def successor
-    BottleNumber.for(99)
+    BottleNumber.for(max, max: max)
   end
 end
 
