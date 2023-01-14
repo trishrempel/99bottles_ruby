@@ -129,3 +129,21 @@ class BottleNumber6 < BottleNumber
     "six-pack"
   end
 end
+
+class BottleNumberMin < BottleNumber
+  def quantity
+    "1"
+  end
+
+  def container
+    "bottle"
+  end
+
+  def action
+    "Go to the store and buy some more"
+  end
+
+  def successor
+    BottleNumber.for(max, max: max, min: min)
+  end
+end
