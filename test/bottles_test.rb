@@ -250,7 +250,6 @@ Go to the store and buy some more, 7 bottles of beer on the wall.
   end
 
   def test_custom_max_min_bottles_song
-    skip
     expected = <<-SONG
 1 six-pack of beer on the wall, 1 six-pack of beer.
 Take one down and pass it around, 5 bottles of beer on the wall.
