@@ -21,7 +21,7 @@ class VerseFake
       5
     end
 
-    def lyrics(number, max: nil)
+    def lyrics(number, max: nil, min: nil)
       "This is verse #{number}.\n"
     end
   end
