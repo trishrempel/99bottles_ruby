@@ -92,7 +92,7 @@ class BottleNumber
   end
 
   def successor
-    BottleNumber.for(number - 1, max: max)
+    BottleNumber.for(number - 1, max: max, min: min)
   end
 end
 
@@ -106,7 +106,7 @@ class BottleNumber0 < BottleNumber
   end
 
   def successor
-    BottleNumber.for(max, max: max)
+    BottleNumber.for(max, max: max, min: min)
   end
 end
 
