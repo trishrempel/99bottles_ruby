@@ -51,7 +51,7 @@ end
 
 
 class BottleNumber
-  def self.for(number, max:)
+  def self.for(number, max:, min: 0)
     case number
     when 0
       BottleNumber0
