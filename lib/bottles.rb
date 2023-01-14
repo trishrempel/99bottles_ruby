@@ -131,12 +131,17 @@ class BottleNumber6 < BottleNumber
 end
 
 class BottleNumberMin < BottleNumber
+  def initialize(number, max:, min:)
+    super
+    @bottle_number = BottleNumber.for(number, max: max, min: nil)
+  end
+
   def quantity
-    "1"
+    @bottle_number.quantity
   end
 
   def container
-    "bottle"
+    @bottle_number.container
   end
 
   def action

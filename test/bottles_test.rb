@@ -137,6 +137,17 @@ class BottleNumberMinTest < Minitest::Test
       BottleNumberMin.new(1, max: 99, min: 1)
     ).lyrics
   end
+
+  def test_verse_0
+    expected =
+      "No more bottles of beer on the wall, " +
+      "no more bottles of beer.\n" +
+      "Go to the store and buy some more, " +
+      "1 six-pack of beer on the wall.\n"
+    assert_equal expected, BottleVerse.new(
+      BottleNumberMin.new(0, max: 6, min: 0)
+    ).lyrics
+  end
 end
 
 class CountdownSongTest < Minitest::Test
