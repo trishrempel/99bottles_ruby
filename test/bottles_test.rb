@@ -97,6 +97,16 @@ class BottleVerseTest < Minitest::Test
      assert_equal expected, BottleVerse.lyrics(1)
   end
 
+  def test_verse_1_with_explicit_min_value
+    skip
+    expected =
+      "1 bottle of beer on the wall, " +
+      "1 bottle of beer.\n" +
+      "Go to the store and buy some more, " +
+      "99 bottles of beer on the wall.\n"
+     assert_equal expected, BottleVerse.lyrics(1, min: 1)
+  end
+
   def test_verse_0
     expected =
       "No more bottles of beer on the wall, " +
