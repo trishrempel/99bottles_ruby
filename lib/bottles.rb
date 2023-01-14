@@ -61,11 +61,11 @@ class BottleNumber
       BottleNumber6
     else
       BottleNumber
-    end.new(number, max: max)
+    end.new(number, max: max, min: min)
   end
 
   attr_reader :number, :max, :min
-  def initialize(number, max:, min: 0)
+  def initialize(number, max:, min:)
     @number = number
     @max = max
     @min = min
