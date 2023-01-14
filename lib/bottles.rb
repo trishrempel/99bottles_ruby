@@ -31,7 +31,7 @@ class BottleVerse
     end
 
     def lyrics(number, max: self.max, min: self.min)
-      new(BottleNumber.for(number, max: max, min: self.min)).lyrics
+      new(BottleNumber.for(number, max: max, min: min)).lyrics
     end
   end
 
@@ -52,6 +52,12 @@ end
 
 class BottleNumber
   def self.for(number, max:, min:)
+    return BottleNumberMin.new(
+      number,
+      max: max,
+      min: min
+    ) if number == min
+
     case number
     when 0
       BottleNumber0
