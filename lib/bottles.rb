@@ -30,8 +30,8 @@ class BottleVerse
       0
     end
 
-    def lyrics(number, max: self.max)
-      new(BottleNumber.for(number, max: max)).lyrics
+    def lyrics(number, max: self.max, min: self.min)
+      new(BottleNumber.for(number, max: max, min: self.min)).lyrics
     end
   end
 
