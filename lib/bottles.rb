@@ -52,13 +52,7 @@ end
 
 class BottleNumber
   def self.for(number, max:, min:)
-    return BottleNumberMin.new(
-      number,
-      max: max,
-      min: min
-    ) if number == min
-
-    case number
+    bottle_number = case number
     when 0
       BottleNumber0
     when 1
@@ -68,6 +62,16 @@ class BottleNumber
     else
       BottleNumber
     end.new(number, max: max, min: min)
+
+    if (number == min)
+      BottleNumberMin.new(
+        number,
+        max: max,
+        min: min
+      )
+    else
+      bottle_number
+    end
   end
 
   attr_reader :number, :max, :min
