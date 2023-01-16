@@ -67,7 +67,8 @@ class BottleNumber
       BottleNumberMin.new(
         number,
         max: max,
-        min: min
+        min: min,
+        bottle_number: bottle_number
       )
     else
       bottle_number
