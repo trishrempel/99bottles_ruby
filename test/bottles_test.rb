@@ -133,7 +133,12 @@ class BottleNumberMinTest < Minitest::Test
       "Go to the store and buy some more, " +
       "99 bottles of beer on the wall.\n"
     assert_equal expected, BottleVerse.new(
-      BottleNumberMin.new(1, max: 99, min: 1)
+      BottleNumberMin.new(
+        1,
+        max: 99,
+        min: 1,
+        bottle_number: BottleNumber.for(1, max: 99, min: 1)
+      )
     ).lyrics
   end
 
@@ -144,7 +149,12 @@ class BottleNumberMinTest < Minitest::Test
       "Go to the store and buy some more, " +
       "1 six-pack of beer on the wall.\n"
     assert_equal expected, BottleVerse.new(
-      BottleNumberMin.new(0, max: 6, min: 0)
+      BottleNumberMin.new(
+        0,
+        max: 6,
+        min: 0,
+        bottle_number: BottleNumber.for(0, max: 6, min: 0)
+      )
     ).lyrics
   end
 end
