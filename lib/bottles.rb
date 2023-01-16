@@ -129,8 +129,8 @@ class BottleNumber6 < BottleNumber
 end
 
 class BottleNumberMin < BottleNumber
-  def initialize(number, max:, min:)
-    super
+  def initialize(number, max:, min:, bottle_number: nil)
+    super(number, max: max, min: min)
     @bottle_number = BottleNumber.for(number, max: max, min: nil)
   end
 
