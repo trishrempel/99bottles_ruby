@@ -21,7 +21,7 @@ class VerseFake
       5
     end
 
-    def lyrics(number, max: nil)
+    def lyrics(number, max: nil, min: nil)
       "This is verse #{number}.\n"
     end
   end
@@ -97,6 +97,15 @@ class BottleVerseTest < Minitest::Test
      assert_equal expected, BottleVerse.lyrics(1)
   end
 
+  def test_verse_1_with_explicit_min_value
+    expected =
+      "1 bottle of beer on the wall, " +
+      "1 bottle of beer.\n" +
+      "Go to the store and buy some more, " +
+      "99 bottles of beer on the wall.\n"
+     assert_equal expected, BottleVerse.lyrics(1, min: 1)
+  end
+
   def test_verse_0
     expected =
       "No more bottles of beer on the wall, " +
@@ -116,6 +125,39 @@ class BottleVerseTest < Minitest::Test
   end
 end
 
+class BottleNumberMinTest < Minitest::Test
+  def test_verse_1
+    expected =
+      "1 bottle of beer on the wall, " +
+      "1 bottle of beer.\n" +
+      "Go to the store and buy some more, " +
+      "99 bottles of beer on the wall.\n"
+    assert_equal expected, BottleVerse.new(
+      BottleNumberMin.new(
+        1,
+        max: 99,
+        min: 1,
+        bottle_number: BottleNumber.for(1, max: 99, min: 1)
+      )
+    ).lyrics
+  end
+
+  def test_verse_0
+    expected =
+      "No more bottles of beer on the wall, " +
+      "no more bottles of beer.\n" +
+      "Go to the store and buy some more, " +
+      "1 six-pack of beer on the wall.\n"
+    assert_equal expected, BottleVerse.new(
+      BottleNumberMin.new(
+        0,
+        max: 6,
+        min: 0,
+        bottle_number: BottleNumber.for(0, max: 6, min: 0)
+      )
+    ).lyrics
+  end
+end
 
 class CountdownSongTest < Minitest::Test
   def test_verse
@@ -181,7 +223,7 @@ class CountdownSongTest < Minitest::Test
 end
 
 class Bottles99IntegrationTest < Minitest::Test
-  def test_partial_7_bottles_song
+  def test_custom_max_bottles_song
     expected = <<-SONG
 7 bottles of beer on the wall, 7 bottles of beer.
 Take one down and pass it around, 1 six-pack of beer on the wall.
@@ -212,8 +254,38 @@ Go to the store and buy some more, 7 bottles of beer on the wall.
       expected,
       CountdownSong.new(
         verse_template: BottleVerse,
-        max: 7,
-        min: 0
+        max: 7
+      ).song
+    )
+  end
+
+  def test_custom_max_min_bottles_song
+    expected = <<-SONG
+1 six-pack of beer on the wall, 1 six-pack of beer.
+Take one down and pass it around, 5 bottles of beer on the wall.
+
+5 bottles of beer on the wall, 5 bottles of beer.
+Take one down and pass it around, 4 bottles of beer on the wall.
+
+4 bottles of beer on the wall, 4 bottles of beer.
+Take one down and pass it around, 3 bottles of beer on the wall.
+
+3 bottles of beer on the wall, 3 bottles of beer.
+Take one down and pass it around, 2 bottles of beer on the wall.
+
+2 bottles of beer on the wall, 2 bottles of beer.
+Take one down and pass it around, 1 bottle of beer on the wall.
+
+1 bottle of beer on the wall, 1 bottle of beer.
+Go to the store and buy some more, 1 six-pack of beer on the wall.
+    SONG
+
+    assert_equal(
+      expected,
+      CountdownSong.new(
+        verse_template: BottleVerse,
+        max: 6,
+        min: 1
       ).song
     )
   end

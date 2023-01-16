@@ -15,7 +15,7 @@ class CountdownSong
   end
 
   def verse(number)
-    verse_template.lyrics(number, max: max)
+    verse_template.lyrics(number, max: max, min: min)
   end
 end
 
@@ -30,8 +30,8 @@ class BottleVerse
       0
     end
 
-    def lyrics(number, max: self.max)
-      new(BottleNumber.for(number, max: max)).lyrics
+    def lyrics(number, max: self.max, min: self.min)
+      new(BottleNumber.for(number, max: max, min: min)).lyrics
     end
   end
 
@@ -51,8 +51,8 @@ end
 
 
 class BottleNumber
-  def self.for(number, max:)
-    case number
+  def self.for(number, max:, min:)
+    bottle_number = case number
     when 0
       BottleNumber0
     when 1
@@ -61,13 +61,25 @@ class BottleNumber
       BottleNumber6
     else
       BottleNumber
-    end.new(number, max: max)
+    end.new(number, max: max, min: min)
+
+    if (number == min)
+      BottleNumberMin.new(
+        number,
+        max: max,
+        min: min,
+        bottle_number: bottle_number
+      )
+    else
+      bottle_number
+    end
   end
 
-  attr_reader :number, :max
-  def initialize(number, max:)
+  attr_reader :number, :max, :min
+  def initialize(number, max:, min:)
     @number = number
     @max = max
+    @min = min
   end
 
   def to_s
@@ -91,21 +103,13 @@ class BottleNumber
   end
 
   def successor
-    BottleNumber.for(number - 1, max: max)
+    BottleNumber.for(number - 1, max: max, min: min)
   end
 end
 
 class BottleNumber0 < BottleNumber
   def quantity
     "no more"
-  end
-
-  def action
-    "Go to the store and buy some more"
-  end
-
-  def successor
-    BottleNumber.for(max, max: max)
   end
 end
 
@@ -126,5 +130,28 @@ class BottleNumber6 < BottleNumber
 
   def container
     "six-pack"
+  end
+end
+
+class BottleNumberMin < BottleNumber
+  def initialize(number, max:, min:, bottle_number:)
+    super(number, max: max, min: min)
+    @bottle_number = bottle_number
+  end
+
+  def quantity
+    @bottle_number.quantity
+  end
+
+  def container
+    @bottle_number.container
+  end
+
+  def action
+    "Go to the store and buy some more"
+  end
+
+  def successor
+    BottleNumber.for(max, max: max, min: min)
   end
 end
